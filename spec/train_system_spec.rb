@@ -1,19 +1,31 @@
-require_relative '../train_system'
+require 'train_system'
 # # given a source and terminal find the distance based on the routes (directed_graph)
-ROUTES = %w(MN5 NL4 LP8 PL8 PR6 MP5 LR2 RN3 MR7)
 
-RSpec.describe 'a route' do
-  it 'has a source, terminal and distance' do
-    system = TrainSystem.new("MN5")
-    expect(system.source).to eq("M")
-    expect(system.terminal).to eq("N")
-    expect(system.distance).to eq(5)
-    # expect(system.route("MN5")).to eq(5)
-    # expect(M->N->L).to eq(9)
-    # expect(M->P).to eq(5)
-    # expect(M->P->L).to eq(13)
-    # expect(M->R->N->L->P).to eq(22)
-    # expect(M->R->P).to eq('Itinerary not possible')
+RSpec.describe 'Train System' do
+  # test_input = 'MN5, NL4, LP8, PL8, PR6, MP5, LR2, RN3, MR7'
+  test_input = "MN5", "NL4", "LP8", "PL8", "PR6", "MP5", "LR2", "RN3", "MR7"
+  routes = TrainSystem.new(test_input)
+
+  # context 'route' do
+  #   it 'has a source, terminal and time' do
+  #     expect(routes.route("MN5").source).to eq("M")
+  #     # expect(route.terminal).to eq("N")
+  #     # expect(route.distance).to eq(5)
+  #     # expect(route.route_distance("MN5")).to eq(5)
+  #   end
+  # end
+
+  context 'route_time' do
+    it 'returns a distance based on itinerary' do
+      expect(routes.route_time("M->P")).to eq(5)
+      # expect("M->N->L").to eq(9)
+      # expect("M->P->L").to eq(13)
+      # expect("M->R->N->L->P").to eq(22)
+    end
+
+    it 'lets you know if route is not possible' do
+      # expect("M->R->P").to eq('Itinerary not possible')
+    end
   end
 end
 
