@@ -1,9 +1,7 @@
 require 'tram_system'
-# # given a source and terminal find the distance based on the routes (directed_graph)
 
 RSpec.describe 'Tram System' do
-  # test_input = 'MN5, NL4, LP8, PL8, PR6, MP5, LR2, RN3, MR7'
-  test_input = "MN5", "NL4", "LP8", "PL8", "PR6", "MP5", "LR2", "RN3", "MR7"
+  test_input = 'MN5', 'NL4', 'LP8', 'PL8', 'PR6', 'MP5', 'LR2', 'RN3', 'MR7'
   system = TramSystem.new(test_input)
 
   it 'creates each stations from the routes_graph(test_input)' do
@@ -15,35 +13,51 @@ RSpec.describe 'Tram System' do
   end
   it 'needs to know all possible routes with #routes' do
     expect(system.routes.size).to eq(5)
-    expect(system.routes[0]).to eq(["M", ["N", 5], ["P", 5], ["R", 7]])
+    expect(system.routes[0]).to eq(['M', ['N', 5], ['P', 5], ['R', 7]])
   end
   it 'needs to know if a route is possible with route_exist?' do
-    expect(system.route_exist?("M", "N")).to be_truthy
-    expect(system.route_exist?("M", "Z")).to be_falsy
+    expect(system.route_exist?('M', 'N')).to be_truthy
+    expect(system.route_exist?('M', 'Z')).to be_falsy
   end
 
   it '#route_exist? provides the time to destination as truthy' do
-    expect(system.route_exist?("M", "N")).to eq(5)
+    expect(system.route_exist?('M', 'N')).to eq(5)
   end
 
   context 'route_time returns a distance based on itinerary' do
     it 'for M->P' do
-      expect(system.route_time("M->P")).to eq(5)
+      expect(system.route_time('M->P')).to eq(5)
     end
     it 'for N->L' do
-      expect(system.route_time("N->L")).to eq(4)
+      expect(system.route_time('N->L')).to eq(4)
     end
     it 'for M->N->L' do
-      expect(system.route_time("M->N->L")).to eq(9)
+      expect(system.route_time('M->N->L')).to eq(9)
     end
     it 'for M->P->L' do
-      expect(system.route_time("M->P->L")).to eq(13)
+      expect(system.route_time('M->P->L')).to eq(13)
     end
     it 'for M->R->N->L->P' do
-      expect(system.route_time("M->R->N->L->P")).to eq(22)
+      expect(system.route_time('M->R->N->L->P')).to eq(22)
     end
     it 'lets you know if route is not possible' do
-      expect(system.route_time("M->R->P")).to eq('Itinerary not possible')
+      expect(system.route_time('M->R->P')).to eq('Itinerary not possible')
+    end
+    it 'unless start and end are the same' do
+      # check for Q6+, need to solve those differently...
+      expect(system.route_time('L->L')).to eq('Itinerary not possible')
+    end
+  end
+
+  context '#trip_count returns the number of trips based on conditionals' do
+    it 'L->L' do
+      expect(system.trip_count('L', 'L')).to eq(3)
+    end
+    it 'M->L' do
+      expect(system.trip_count('M', 'L')).to eq(4)
+    end
+    xit 'L->L with max 3 stops' do
+      expect(system.trip_count('L', 'L', '<= 3')).to eq(2)
     end
   end
 end
@@ -58,7 +72,7 @@ end
 
   # 4. The time for the route: M->R->N->L->P
 
-  # S. The time for the route: M->R->P
+  # 5. The time for the route: M->R->P
 
   # 6. The number of trips starting at L and ending at L with a maximum of 3 stops. There are 2 trips: L->P->L and L->R->N->L
 
