@@ -36,11 +36,14 @@ RSpec.describe 'Tram System' do
     it 'for M->N->L' do
       expect(system.route_time("M->N->L")).to eq(9)
     end
-      # expect("M->P->L").to eq(13)
-      # expect("M->R->N->L->P").to eq(22)
-
-    xit 'lets you know if route is not possible' do
-      # expect("M->R->P").to eq('Itinerary not possible')
+    it 'for M->P->L' do
+      expect(system.route_time("M->P->L")).to eq(13)
+    end
+    it 'for M->R->N->L->P' do
+      expect(system.route_time("M->R->N->L->P")).to eq(22)
+    end
+    it 'lets you know if route is not possible' do
+      expect(system.route_time("M->R->P")).to eq('Itinerary not possible')
     end
   end
 end

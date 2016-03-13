@@ -23,18 +23,15 @@ class TramSystem
 
   def route_time(itinerary)
     stops = itinerary.split("->")
-    if stops.size == 2
-      route_exist?(stops.first, stops.last)
-    else
-      trips = []
-      stops.map.with_index do |stop, index|
-        trips << stop + stops[index + 1] unless index == stops.size - 1
-      end
-      legs = trips.flatten
-      legs.inject(0) do |time, leg|
-        leg_time = route_exist?(leg.chars.first, leg.chars.last)
-        time += leg_time
-      end
+    trips = []
+    stops.map.with_index do |stop, index|
+      trips << stop + stops[index + 1] unless index == stops.size - 1
+    end
+    legs = trips.flatten
+    legs.inject(0) do |time, leg|
+      leg_time = route_exist?(leg.chars.first, leg.chars.last)
+      return 'Itinerary not possible' unless leg_time
+      time += leg_time
     end
   end
 end
