@@ -25,22 +25,22 @@ RSpec.describe 'Tram System' do
   end
 
   context 'route_time returns a distance based on itinerary' do
-    it 'for M->P' do
+    it 'for M->P (Q2)' do
       expect(system.route_time('M->P')).to eq(5)
     end
     it 'for N->L' do
       expect(system.route_time('N->L')).to eq(4)
     end
-    it 'for M->N->L' do
+    it 'for M->N->L (Q1)' do
       expect(system.route_time('M->N->L')).to eq(9)
     end
-    it 'for M->P->L' do
+    it 'for M->P->L (Q3)' do
       expect(system.route_time('M->P->L')).to eq(13)
     end
-    it 'for M->R->N->L->P' do
+    it 'for M->R->N->L->P (Q4)' do
       expect(system.route_time('M->R->N->L->P')).to eq(22)
     end
-    it 'lets you know if route is not possible' do
+    it 'lets you know if route is not possible (Q5)' do
       expect(system.route_time('M->R->P')).to eq('Itinerary not possible')
     end
     it 'unless start and end are the same' do
@@ -50,17 +50,33 @@ RSpec.describe 'Tram System' do
   end
 
   context '#trip_count returns the number of trips based on conditionals' do
-    it 'L->L' do
-      expect(system.trip_count('L', 'L')).to eq(3)
+    it 'L->L with max 3 stops (Q6)' do
+      expect(system.trip_count('L', 'L', 1, 3)).to eq(2)
     end
-    it 'M->L' do
-      expect(system.trip_count('M', 'L')).to eq(4)
+    it 'M->L with exactly 4 stops (Q7)' do
+      expect(system.trip_count('M', 'L', 4, 4)).to eq(3)
     end
-    xit 'L->L with max 3 stops' do
-      expect(system.trip_count('L', 'L', '<= 3')).to eq(2)
+  end
+  context '#shortest_route returns the shortest route between' do
+    it 'M->L (Q8)' do
+      expect(system.shortest_route('M', 'L')).to eq(9)
+    end
+    it 'N->N (Q9)' do
+      expect(system.shortest_route('N', 'N')).to eq(9)
+    end
+  end
+  context '#scenic_route returns the number of route options within a distance' do
+    it 'L->L under 30 (Q10)' do
+      expect(system.scenic_route('L', 'L', 30)).to eq(7)
     end
   end
 end
+
+  #Output" If there is no possible route, output is: "Itinerary not possible". Always follow the shortest route.
+
+  #Test Input: MN5, NL4, LP8, PL8, PR6, MP5, LR2, RN3, MR7
+
+  #Each letter represents a station with the number as minutes to travel. MN5 is a route from M to N taking 5 minutes.
 
   # Questions:
 
@@ -82,7 +98,8 @@ end
 
   # 9. The length of the shortest route (in terms of distance to travel) from N to N.
 
-  # 10. The number of different routes from L to L with a distance of less than 30. In the sample data, the trips are: LPL, LRNL, LRNLPL, LPLRNL, LPRNL, LRNLRNL, LRNLRNLRNL
+  # 10. The number of different routes from L to L with a distance of less than 30. In the sample data, the trips are: LPL16, LRNL9, LRNLPL25, LPLRNL25, LPRNL21, LRNLRNL18, LRNLRNLRNL27
+
   # Expected Output
 
   # Output #1: 9
